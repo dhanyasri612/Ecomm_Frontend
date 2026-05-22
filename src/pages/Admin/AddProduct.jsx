@@ -3,6 +3,7 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../app/apiClient.js";
 
 const AddProduct = () => {
   const [name, setName] = useState("");
@@ -26,7 +27,7 @@ const AddProduct = () => {
       if (files.length > 0) {
         const fd = new FormData();
         files.forEach((f) => fd.append("images", f));
-        const res = await fetch("/api/v1/admin/upload", {
+        const res = await fetch(apiUrl("/v1/admin/upload"), {
           method: "POST",
           body: fd,
           credentials: "include",
@@ -46,7 +47,7 @@ const AddProduct = () => {
         image: images,
       };
 
-      const createRes = await fetch("/api/v1/admin/product/create", {
+      const createRes = await fetch(apiUrl("/v1/admin/product/create"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

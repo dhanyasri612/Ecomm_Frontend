@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import toast from "react-hot-toast";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { clearCart } from "../features/cart/cartSlice";
+import { apiClient } from "../app/apiClient.js";
 
 const initialAddress = {
   address: "",
@@ -81,8 +81,8 @@ const Checkout = () => {
           ? { id: `demo_card_${Date.now()}`, status: "Paid" }
           : { id: `cod_${Date.now()}`, status: "Pending" };
 
-      const { data } = await axios.post(
-        "/api/v1/new/order",
+      const { data } = await apiClient.post(
+        "/v1/new/order",
         {
           ...buildOrderPayload(),
           paymentInfo,

@@ -3,6 +3,7 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../app/apiClient.js";
 
 const ViewProducts = () => {
   const [products, setProducts] = useState([]);
@@ -12,7 +13,7 @@ const ViewProducts = () => {
   const load = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/v1/admin/viewProducts", {
+      const res = await fetch(apiUrl("/v1/admin/viewProducts"), {
         credentials: "include",
       });
       if (!res.ok) throw new Error("Failed to load products");
@@ -33,7 +34,7 @@ const ViewProducts = () => {
   const handleDelete = async (id) => {
     if (!confirm("Delete this product?")) return;
     try {
-      const res = await fetch(`/api/v1/product/${id}`, {
+      const res = await fetch(apiUrl(`/v1/product/${id}`), {
         method: "DELETE",
         credentials: "include",
       });

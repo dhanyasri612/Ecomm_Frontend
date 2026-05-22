@@ -1,5 +1,5 @@
-import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { apiClient } from "../../app/apiClient.js";
 
 export const getProduct = createAsyncThunk(
   "product/getProduct",
@@ -16,7 +16,7 @@ export const getProduct = createAsyncThunk(
       if (keyword) {
         link += `&keyword=${keyword}`;
       }
-      const { data } = await axios.get(link);
+      const { data } = await apiClient.get(link.replace(/^\/api/, ""));
       console.log(data);
       return data;
     } catch (error) {
@@ -30,7 +30,7 @@ export const getProductDetails = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const link = `/api/v1/product/${id}`;
-      const { data } = await axios.get(link);
+      const { data } = await apiClient.get(link.replace(/^\/api/, ""));
       console.log(data);
       return data;
     } catch (error) {

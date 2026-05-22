@@ -21,6 +21,7 @@ import {
 } from "../features/products/productSlice";
 import toast from "react-hot-toast";
 import { calculateDiscount, formatDate } from "../utils/formatter";
+import { apiUrl } from "../app/apiClient.js";
 
 const ProductPage = () => {
   const [userRating, setUserRating] = useState(0);
@@ -73,7 +74,7 @@ const ProductPage = () => {
       return;
     }
     try {
-      const res = await fetch("/api/v1/review", {
+      const res = await fetch(apiUrl("/v1/review"), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

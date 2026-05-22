@@ -3,6 +3,7 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { apiUrl } from "../../app/apiClient.js";
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -23,7 +24,7 @@ const EditProduct = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/v1/product/${id}`);
+        const res = await fetch(apiUrl(`/v1/product/${id}`));
         if (!res.ok) throw new Error("Failed to load product");
         const json = await res.json();
         const p = json.product;
@@ -58,7 +59,7 @@ const EditProduct = () => {
       if (files.length > 0) {
         const fd = new FormData();
         files.forEach((f) => fd.append("images", f));
-        const up = await fetch("/api/v1/admin/upload", {
+        const up = await fetch(apiUrl("/v1/admin/upload"), {
           method: "POST",
           body: fd,
           credentials: "include",
@@ -78,7 +79,7 @@ const EditProduct = () => {
         image: images,
       };
 
-      const res = await fetch(`/api/v1/product/${id}`, {
+      const res = await fetch(apiUrl(`/v1/product/${id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

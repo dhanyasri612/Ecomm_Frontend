@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { apiClient } from "../../app/apiClient.js";
 
 //Regsiter api
 export const register = createAsyncThunk(
@@ -11,7 +11,7 @@ export const register = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       };
-      const { data } = await axios.post("/api/v1/register", userData, config);
+      const { data } = await apiClient.post("/v1/register", userData, config);
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -25,7 +25,7 @@ export const loadUser = createAsyncThunk(
   "user/loaduser",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get("api/v1/profile");
+      const { data } = await apiClient.get("/v1/profile");
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -44,8 +44,8 @@ export const login = createAsyncThunk(
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axios.post(
-        "/api/v1/login",
+      const { data } = await apiClient.post(
+        "/v1/login",
         { email, password },
         config,
       );
@@ -60,7 +60,7 @@ export const logout = createAsyncThunk(
   "user/logout",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get("/api/v1/logout");
+      const { data } = await apiClient.get("/v1/logout");
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to logout");
@@ -77,8 +77,8 @@ export const updateProfile = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       };
-      const { data } = await axios.put(
-        "/api/v1/update/profile",
+      const { data } = await apiClient.put(
+        "/v1/update/profile",
         userData,
         config,
       );
@@ -100,8 +100,8 @@ export const updatePassword = createAsyncThunk(
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axios.put(
-        "/api/v1/update/password",
+      const { data } = await apiClient.put(
+        "/v1/update/password",
         passwordData,
         config,
       );
@@ -123,8 +123,8 @@ export const forgetPassword = createAsyncThunk(
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axios.post(
-        "/api/v1/password/forget",
+      const { data } = await apiClient.post(
+        "/v1/password/forget",
         emailData,
         config,
       );
@@ -146,8 +146,8 @@ export const resetPassword = createAsyncThunk(
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axios.post(
-        `/api/v1/reset/${token}`,
+      const { data } = await apiClient.post(
+        `/v1/reset/${token}`,
         passwordData,
         config,
       );
