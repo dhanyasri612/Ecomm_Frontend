@@ -12,7 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const { error, loading, success } = useSelector((state) => state.user);
-  const redirectTo = location.state?.from || "/";
+  const redirectTo = location.state?.from || "/profile";
   const loginSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }));

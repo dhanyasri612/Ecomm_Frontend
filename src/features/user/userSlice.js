@@ -222,7 +222,6 @@ const userSlice = createSlice({
       localStorage.setItem("isAuthenticated", String(state.isAuthenticated));
     });
     builder.addCase(loadUser.rejected, (state, action) => {
-      state.error = action.payload?.message || null;
       state.loading = false;
       state.user = null;
       state.isAuthenticated = false;
@@ -231,7 +230,10 @@ const userSlice = createSlice({
         state.isAuthenticated = false;
         localStorage.removeItem("user");
         localStorage.removeItem("isAuthenticated");
+        state.error = null;
+        return;
       }
+      state.error = action.payload?.message || null;
     });
 
     //login

@@ -7,6 +7,7 @@ export const apiBaseUrl = baseUrl;
 
 export const apiClient = axios.create({
   baseURL: baseUrl,
+  withCredentials: true,
 });
 
 export const apiUrl = (path) => {

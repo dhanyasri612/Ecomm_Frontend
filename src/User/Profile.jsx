@@ -6,11 +6,24 @@ import { useSelector } from "react-redux";
 const Profile = () => {
   const { user, isAuthenticated, loading } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  useEffect(()=>{
-    if(isAuthenticated===false){
-        navigate("/login");
+
+  useEffect(() => {
+    if (!loading && isAuthenticated === false) {
+      navigate("/login");
     }
-  },[isAuthenticated])
+  }, [isAuthenticated, loading, navigate]);
+
+  if (loading || !user) {
+    return (
+      <>
+        <NavBar />
+        <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 pt-24 text-gray-600">
+          Loading profile...
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <NavBar />
@@ -24,8 +37,11 @@ const Profile = () => {
           <div className="bg-white py-10 px-6 shadow-xl rounded-2xl sm:px-12 flex flex-col items-center border border-gray-100">
             <div className="relative h-36 w-36 mb-8 mt-2">
               <img
-                src={user?.avatar?.url}
-                alt={user?.name}
+                src={
+                  user?.avatar?.url ||
+                  "https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
+                }
+                alt={user?.name || "Profile"}
                 className="rounded-full w-full h-full object-cover border-4 border-indigo-100 shadow-lg"
               />
             </div>
