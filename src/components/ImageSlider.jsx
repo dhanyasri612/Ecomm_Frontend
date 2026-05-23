@@ -37,7 +37,7 @@ const ImageSlider = () => {
               src={image}
               alt={`Slide ${index + 1}`}
               key={index}
-              className="h-75 w-full md:h-112.5 object-cover shrink-0"
+              className="h-72 w-full md:h-[450px] object-cover shrink-0"
             />
           );
         })}
@@ -62,7 +62,11 @@ const ImageSlider = () => {
       {/*Indicator*/}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
         {images.map((_, index) => (
-          <button key={index} onClick={() => setCurrent(index)} className={`h-2 rounded-full transition-all ${current===index ? "w-6 bg-white" : "w-2 bg-white/60"}`}></button>
+          <button
+            key={index}
+            onClick={() => setCurrent(index)}
+            className={`h-2 rounded-full transition-all ${current === index ? "w-6 bg-white" : "w-2 bg-white/60"}`}
+          ></button>
         ))}
       </div>
     </div>
