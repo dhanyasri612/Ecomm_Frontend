@@ -5,18 +5,14 @@ export const getProduct = createAsyncThunk(
   "product/getProduct",
   async ({ keyword = "", page = 1, category } = {}, { rejectWithValue }) => {
     try {
-      //const link = "/api/v1/products"
-      /* const link = keyword
-        ? `/api/v1/products?keyword=${encodeURIComponent(keyword)}&page=${page}`
-        : `/api/v1/products?page=${page}`; */
-      let link = "/api/v1/products?page=" + page;
+      let link = `/v1/products?page=${page}`;
       if (category) {
         link += `&category=${category}`;
       }
       if (keyword) {
         link += `&keyword=${keyword}`;
       }
-      const { data } = await apiClient.get(link.replace(/^\/api/, ""));
+      const { data } = await apiClient.get(link);
       console.log(data);
       return data;
     } catch (error) {
@@ -29,8 +25,7 @@ export const getProductDetails = createAsyncThunk(
   "product/getProductDetails",
   async (id, { rejectWithValue }) => {
     try {
-      const link = `/api/v1/product/${id}`;
-      const { data } = await apiClient.get(link.replace(/^\/api/, ""));
+      const { data } = await apiClient.get(`/v1/product/${id}`);
       console.log(data);
       return data;
     } catch (error) {
