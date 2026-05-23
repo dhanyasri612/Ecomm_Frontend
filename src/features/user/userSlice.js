@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiClient } from "../../app/apiClient.js";
+import { setToken, clearToken } from "../../app/authToken.js";
 
 //Regsiter api
 export const register = createAsyncThunk(
@@ -194,6 +195,7 @@ const userSlice = createSlice({
         state.message = action.payload?.message || null;
         state.user = action.payload?.user || null;
         state.isAuthenticated = Boolean(action.payload?.user);
+        if (action.payload?.token) setToken(action.payload.token);
         localStorage.setItem("user", JSON.stringify(state.user));
         localStorage.setItem("isAuthenticated", String(state.isAuthenticated));
       })
@@ -230,6 +232,7 @@ const userSlice = createSlice({
         state.isAuthenticated = false;
         localStorage.removeItem("user");
         localStorage.removeItem("isAuthenticated");
+        clearToken();
         state.error = null;
         return;
       }
@@ -250,6 +253,7 @@ const userSlice = createSlice({
         state.message = action.payload?.message || null;
         state.user = action.payload?.user || null;
         state.isAuthenticated = Boolean(action.payload?.user);
+        if (action.payload?.token) setToken(action.payload.token);
         localStorage.setItem("user", JSON.stringify(state.user));
         localStorage.setItem("isAuthenticated", String(state.isAuthenticated));
       })
@@ -276,6 +280,7 @@ const userSlice = createSlice({
       state.isAuthenticated = false;
       localStorage.removeItem("user");
       localStorage.removeItem("isAuthenticated");
+      clearToken();
     });
     builder.addCase(logout.rejected, (state, action) => {
       state.loading = false;
@@ -295,6 +300,7 @@ const userSlice = createSlice({
       state.message = action.payload?.message || "Profile updated successfully";
       state.user = action.payload?.user || state.user;
       state.isAuthenticated = Boolean(state.user);
+      if (action.payload?.token) setToken(action.payload.token);
       localStorage.setItem("user", JSON.stringify(state.user));
       localStorage.setItem("isAuthenticated", String(state.isAuthenticated));
     });
@@ -321,6 +327,7 @@ const userSlice = createSlice({
         action.payload?.message || "Password updated successfully";
       state.user = action.payload?.user || state.user;
       state.isAuthenticated = Boolean(state.user);
+      if (action.payload?.token) setToken(action.payload.token);
       localStorage.setItem("user", JSON.stringify(state.user));
       localStorage.setItem("isAuthenticated", String(state.isAuthenticated));
     });
@@ -367,6 +374,7 @@ const userSlice = createSlice({
       state.message = action.payload?.message || "Password reset successfully";
       state.user = action.payload?.user || state.user;
       state.isAuthenticated = Boolean(state.user);
+      if (action.payload?.token) setToken(action.payload.token);
       localStorage.setItem("user", JSON.stringify(state.user));
       localStorage.setItem("isAuthenticated", String(state.isAuthenticated));
     });

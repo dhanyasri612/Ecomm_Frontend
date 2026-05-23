@@ -3,7 +3,7 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiUrl } from "../../app/apiClient.js";
+import { apiUrl, getAuthHeaders } from "../../app/apiClient.js";
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -24,7 +24,9 @@ const EditProduct = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const res = await fetch(apiUrl(`/v1/product/${id}`));
+        const res = await fetch(apiUrl(`/v1/product/${id}`), {
+          headers: getAuthHeaders(),
+        });
         if (!res.ok) throw new Error("Failed to load product");
         const json = await res.json();
         const p = json.product;
@@ -63,6 +65,7 @@ const EditProduct = () => {
           method: "POST",
           body: fd,
           credentials: "include",
+          headers: getAuthHeaders(),
         });
         if (!up.ok) throw new Error("Image upload failed");
         const json = await up.json();
@@ -81,7 +84,7 @@ const EditProduct = () => {
 
       const res = await fetch(apiUrl(`/v1/product/${id}`), {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
         credentials: "include",
         body: JSON.stringify(body),
       });

@@ -3,7 +3,7 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { apiUrl } from "../../app/apiClient.js";
+import { apiUrl, getAuthHeaders } from "../../app/apiClient.js";
 
 const ViewProducts = () => {
   const [products, setProducts] = useState([]);
@@ -15,6 +15,7 @@ const ViewProducts = () => {
       setLoading(true);
       const res = await fetch(apiUrl("/v1/admin/viewProducts"), {
         credentials: "include",
+        headers: getAuthHeaders(),
       });
       if (!res.ok) throw new Error("Failed to load products");
       const json = await res.json();
@@ -37,6 +38,7 @@ const ViewProducts = () => {
       const res = await fetch(apiUrl(`/v1/product/${id}`), {
         method: "DELETE",
         credentials: "include",
+        headers: getAuthHeaders(),
       });
       if (!res.ok) throw new Error("Delete failed");
       toast.success("Deleted");

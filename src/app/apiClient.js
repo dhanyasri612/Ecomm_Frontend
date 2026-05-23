@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken } from "./authToken.js";
 
 /**
  * Normalizes the API base URL so requests always hit /api/v1/...
@@ -31,6 +32,22 @@ export const apiClient = axios.create({
   baseURL: apiBaseUrl,
   withCredentials: true,
 });
+
+apiClient.interceptors.request.use((config) => {
+  const token = getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+/** Headers for fetch() calls (admin uploads, reviews, etc.) */
+export const getAuthHeaders = (headers = {}) => {
+  const token = getToken();
+  return token
+    ? { ...headers, Authorization: `Bearer ${token}` }
+    : headers;
+};
 
 export const apiUrl = (path) => {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;

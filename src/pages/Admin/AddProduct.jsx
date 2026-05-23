@@ -3,7 +3,7 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { apiUrl } from "../../app/apiClient.js";
+import { apiUrl, getAuthHeaders } from "../../app/apiClient.js";
 
 const AddProduct = () => {
   const [name, setName] = useState("");
@@ -31,6 +31,7 @@ const AddProduct = () => {
           method: "POST",
           body: fd,
           credentials: "include",
+          headers: getAuthHeaders(),
         });
         if (!res.ok) throw new Error("Image upload failed");
         const json = await res.json();
@@ -49,7 +50,7 @@ const AddProduct = () => {
 
       const createRes = await fetch(apiUrl("/v1/admin/product/create"), {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
         credentials: "include",
         body: JSON.stringify(body),
       });

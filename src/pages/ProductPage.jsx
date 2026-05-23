@@ -21,7 +21,7 @@ import {
 } from "../features/products/productSlice";
 import toast from "react-hot-toast";
 import { calculateDiscount, formatDate } from "../utils/formatter";
-import { apiUrl } from "../app/apiClient.js";
+import { apiUrl, getAuthHeaders } from "../app/apiClient.js";
 
 const ProductPage = () => {
   const [userRating, setUserRating] = useState(0);
@@ -76,7 +76,7 @@ const ProductPage = () => {
     try {
       const res = await fetch(apiUrl("/v1/review"), {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
         credentials: "include",
         body: JSON.stringify({
           rating: userRating,
