@@ -276,7 +276,7 @@ const NavBar = () => {
         </div>
       </div>
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${open ? "max-h-96 opacity-100 translate-y-0" : "max-h-0 opacity-2 translate-y-2"}`}
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${open ? "max-h-96 opacity-100 translate-y-0" : "max-h-0 opacity-0 translate-y-2"}`}
       >
         <div className="flex flex-col p-5 gap-5">
           <Link
